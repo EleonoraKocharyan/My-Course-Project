@@ -1,0 +1,71 @@
+#include "Graphica.h"
+
+void GraphicalPoint::draw()
+{
+	glPointSize(p_size);
+	glBegin(GL_POINTS);
+	
+	glColor3d(color.red,color.green,color.blue);
+	glVertex2d(p.x,p.y);
+	
+	glEnd();
+}
+
+void GraphicalSegment::draw()
+{
+	glLineWidth(l_width);
+	glBegin(GL_LINES);
+
+	glColor3d(color.red,color.green,color.blue);
+	glVertex2d(endpoint_1.x,endpoint_1.y);
+	glVertex2d(endpoint_2.x,endpoint_2.y);
+
+	glEnd();
+}
+
+void GraphicalScene::draw_all()
+{
+	glClear( GL_COLOR_BUFFER_BIT );
+	for(auto i=objs.begin(); i!=objs.end(); ++i)
+		(*i)->draw();
+	
+	glFlush();
+	glutSwapBuffers();
+}
+
+void GraphicalScene::addObj(GraphicalObject* obj)
+{
+	objs.insert(obj);
+	glutPostRedisplay();
+}
+
+void GraphicalScene::removeObj(GraphicalObject* obj)
+{
+	objs.erase(obj);
+	glutPostRedisplay();
+}
+
+void GraphicalView::draw()
+{
+	glLoadIdentity();
+	glMultMatrixd(m);
+	scene->draw_all();
+}
+
+void GraphicalView::translate( double x, double y)
+{
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixd(m);
+	glTranslated(x,y,0);
+	glGetDoublev(GL_MODELVIEW_MATRIX,m);
+	glutPostRedisplay();
+}
+
+GraphicalView::GraphicalView() 
+{
+	for(int i=0; i<16; ++i)
+		m[i]=0;
+	
+	m[0]=m[5]=m[10]=m[15]=1;
+	scene=new GraphicalScene;
+}
