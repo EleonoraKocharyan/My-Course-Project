@@ -15,7 +15,7 @@ double point::CosAngle(const point &a, const point &b) const
 	double bdist=DistanceFrom(b);
 	double cos=skl/(adist*bdist);
 	
-	if(adist==0||bdist==0) // for 0/0 case
+	if(adist==0||bdist==0) 
 	return 2;
 	
 	else return cos;
@@ -23,7 +23,11 @@ double point::CosAngle(const point &a, const point &b) const
 
 std::istream &operator >>(std::istream &pin, point &a)
 {
-	pin>>a.x>>a.y;
+	double x=(rand()%1600)-800;
+	double y=(rand()%1600)-800;
+	a.x=x/1000;
+	a.y=y/1000;
+	//pin>>a.x>>a.y;
 	return pin;
 }
 

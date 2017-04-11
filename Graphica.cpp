@@ -2,7 +2,11 @@
 
 void GraphicalPoint::draw()
 {
+	glEnable (GL_BLEND);
+	glBlendFunc (GL_SRC_ALPHA_SATURATE, GL_ONE);
+
 	glPointSize(p_size);
+	glEnable(GL_POINT_SMOOTH);
 	glBegin(GL_POINTS);
 	
 	glColor3d(color.red,color.green,color.blue);
@@ -13,6 +17,11 @@ void GraphicalPoint::draw()
 
 void GraphicalSegment::draw()
 {
+	glEnable(GL_LINE_SMOOTH);
+	//glHint(GL_LINE_SMOOTH_HINT,  GL_NICEST);
+	glEnable (GL_BLEND);
+	glBlendFunc (GL_SRC_ALPHA_SATURATE, GL_ONE);
+
 	glLineWidth(l_width);
 	glBegin(GL_LINES);
 
